@@ -23,38 +23,32 @@ import java.util.Scanner;
 public class HelloWorld{
 
      public static void main(String []args) throws Exception{
-    
-        	
+       	
         ExchangeService service=new ExchangeService();
         Scanner s=new Scanner(System.in);
         System.out.print("server host: ");
         String server=s.next();
-
-	    System.out.print("domain: ");
-        String domain=s.next();
-        
-        System.out.print("user: ");
-        String user=s.next();
-	    
-	    System.out.print("pass: ");
-	    String pass=s.next();
-	    
-        
-        System.out.print("from: ");
-        String from=s.next();
-        
+        System.out.print("domain\\user: ");
+        String domainUser=s.next();
+        String domain=domainUser.split("\\\\")[0];
+        String user=domainUser.split("\\\\")[1];
+	
+        System.out.print("pass: ");
+        String pass=s.next();
+        //System.out.print("from: ");
+        //String from=s.next();
         System.out.print("to: ");
         String to=s.next();
     
-        service.setCredentials(new WebCredentials(user,pass ,domain));
+        service.setCredentials(new WebCredentials(user,pass,domain));
         	
         URI uri=new URI("https://" + server + "/ews/exchange.asmx");
         	
         service.setUrl(uri);
         	
         EmailMessage replymessage = new EmailMessage(service);
-        EmailAddress fromEmailAddress = new EmailAddress(from);
-        replymessage.setFrom(fromEmailAddress);
+        //EmailAddress fromEmailAddress = new EmailAddress(from);
+        //replymessage.setFrom(fromEmailAddress);
         replymessage.getToRecipients().add(to);
         replymessage.setSubject("subject");
         replymessage.setBody(new MessageBody("body"));
